@@ -13,4 +13,22 @@ tone_analysis = tone_analyzer.tone(
     {'text': text},
     content_type='application/json'
 ).get_result()
-print(json.dumps(tone_analysis, indent=2))
+analysis = json.dumps(tone_analysis, indent=2)
+tone = tone_analysis["document_tone"]['tones'][0]['tone_name']
+print("Tone: " + tone)
+if tone == "Joy": 
+    print("A lifetime of happiness lies ahead of you")
+elif tone == "Anger":
+    print("A light heart carries you through all the hard times")
+elif tone == "Fear":
+    print("Fear and desire - two sides of the same coin")
+elif tone == "Sadness":
+    print("All the troubles you have will pass away very quickly")
+elif tone == "Analytical":
+    print("You have an active mind and a keen imagination")
+elif tone == "Confident":
+    print("Believe in yourself and others will too")
+elif tone == "Tentative":
+    print("The smart thing to do is to begin trusting your intuitions")
+
+
