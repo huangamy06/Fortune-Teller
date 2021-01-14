@@ -7,10 +7,22 @@ tone_analyzer = ToneAnalyzerV3(version='2017-09-21', authenticator = authenticat
 
 tone_analyzer.set_service_url('https://api.us-east.tone-analyzer.watson.cloud.ibm.com/instances/6607d310-f775-4c5c-8346-8b0b7dbf3e44')
 
-text = 'Hi, my name is Amy. I am a graduating student studying computer science. I was able to sign on for a full time engineering job with an amazing company. I will be in Seattle Washington for a while which I look forward to. I am concerned I will not be able to learn fast enough to keep up with my team as I will be using a completely new tech stack. Based on the interview with my team, they seem very flexible and ready to teach. I hope I can live up to their expectations while also learning a shit ton.'
+with open('sample1.txt', 'r') as file:
+	text = file.read()
+#print(data)
 
-tone_analysis = tone_analyzer.tone(
-    {'text': text},
-    content_type='application/json'
-).get_result()
-print(json.dumps(tone_analysis, indent=2))
+tone_analysis = tone_analyzer.tone({'text': text}, content_type='application/json', sentences = False).get_result()
+output = json.dumps(tone_analysis, indent=2)
+output_dict = json.loads(output)
+
+newlist = sorted(output_dict["document_tone"]["tones"], key=lambda k: k['score'], reverse=True)
+tones = []
+for i in range(len(newlist)):
+	tones.append(newlist[i].get("tone_id"))
+
+print(tones)
+
+#for i in range(len(output_dict["document_tone"]["tones"])):
+#	print(output_dict["document_tone"]["tones"][i])
+
+#print(output_dict["document_tone"]["tones"][0].keys())
